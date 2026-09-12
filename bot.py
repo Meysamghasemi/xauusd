@@ -6,18 +6,14 @@ BOT_TOKEN = os.environ["BOT_TOKEN"]
 CHAT_ID = "@mql5club"
 
 # دریافت قیمت نقره XAG/USD
-url = "https://api.goldprice.dev/v1/prices?symbol=XAG-USD-SPOT"
+url = "https://xaus.com/api/v1/spot"
 
 response = requests.get(url, timeout=20)
 response.raise_for_status()
 
 data = response.json()
-row = data["symbols"][0]
 
-if row.get("is_stale"):
-    raise RuntimeError("قیمت نقره به‌روز نیست")
-
-price = float(row["price"])
+price = float(data["silver_usd_oz"])
 
 now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 
